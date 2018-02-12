@@ -1,3 +1,5 @@
+
+
 const readLine = require('readline-sync');
 
 
@@ -30,16 +32,18 @@ function createAccount() {
 	database.push(new user(usernameInput, passwordInput))
 	if(usernameInput !== null && passwordInput !== null){
 		console.log("Your account has been created");
-		console.log(productList);
+		let productList = new ProductList();
+		productList.populateWithDummyData();
+		productList.browseProducts();
 	}
 }
 	
 
-function login(){
+function login() {
 	let inputLogin = readLine.question('What is your username?')
 	let inputPassword = readLine.question('What is your password?')	
 	for(let index in database){
-		let userLogin = database[index]
+		let userLogin = database[index];
 		if (userLogin.username === inputLogin && userLogin.password === inputPassword){
 			console.log('you are logged in');
 		}
@@ -66,6 +70,26 @@ class ProductList {
 	getProduct(id) {
 		return this.products[id];
 	}
+
+
+
+
+	browseProducts() {
+		for (let i in this.products) {
+			let product = this.products[i];
+			//console.log(`(${product.ID})  ${product.name} : ${product.description} : ${product.price} `);
+			console.log("(" + product.ID + ")", product.name, ":", product.description, ":", product.price);
+		}
+		const choice = readLine.question("Choose one: ");
+	}
+
+
+	toString() {
+    for (let i in this.products) {
+      let product = this.products[i];
+      console.log(product.name, ": ", product.description);
+    }
+	}
 }
 
 class Product {
@@ -77,12 +101,5 @@ class Product {
 	}
 }
 
-let productList = new ProductList();
-productList.populateWithDummyData();
-for (let i in productList.products) {
-	let product = productList.products[i];
-	console.log(product.name, ": ", product.description);
-}
-
- runLogin();
+runLogin();
 
